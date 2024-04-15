@@ -1,11 +1,11 @@
 # Task was done before initial commit
-	I added assertions and coverpoints from lab 5 and 6 in this project already. We need to add more assertions and coverpoints since there should be at least 20 assertions for systembus_interface and at least 20 assertions for lv1_interface. I also created more test file in test directory but they was raw copy from given read-miss-icache.
+I added assertions and coverpoints from lab 5 and 6 in this project already. We need to add more assertions and coverpoints since there should be at least 20 assertions for systembus_interface and at least 20 assertions for lv1_interface. I also created more test file in test directory but they was raw copy from given read-miss-icache.
 
 # TODO Task:
-	- Update cpu_monitor_c.sv and system_bus_monitor_c.sv and add more monitor function
-	- Add more assertions to cpu_lv1_interface.sv and system_bus_interface.sv
-	- Correct coverpoints to cpu_mon_packet_c.sv and system_bus_monitor_c.sv follow feedback from lab6 grade
-	- Update read_hit_dcache, read_hit_icache, read_miss_dcache, write_hit_dcache, and write_miss_dcache in test directory.
+- Update cpu_monitor_c.sv and system_bus_monitor_c.sv and add more monitor function
+- Add more assertions to cpu_lv1_interface.sv and system_bus_interface.sv
+- Correct coverpoints to cpu_mon_packet_c.sv and system_bus_monitor_c.sv follow feedback from lab6 grade
+- Update read_hit_dcache, read_hit_icache, read_miss_dcache, write_hit_dcache, and write_miss_dcache in test directory.
 
 
 
