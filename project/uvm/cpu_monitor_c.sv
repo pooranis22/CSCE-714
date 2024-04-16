@@ -56,10 +56,28 @@ class cpu_monitor_c extends uvm_monitor;
             @(posedge vi_cpu_lv1_if.cpu_rd or posedge vi_cpu_lv1_if.cpu_wr)
             packet = cpu_mon_packet_c::type_id::create("packet", this);
             
-            if(vi_cpu_lv1_if.cpu_rd === 1'b1) begin
+            if(vi_cpu_lv1_if.cpu_rd === 1'b1) 
+            begin
                 packet.request_type = READ_REQ;
+                packet.illegal = 1'b0;
+            end
+            else if(vi_cpu_lv1_if.cpu_wr === 1'b1)
+            begin
+                packet.request_type = WRITE_REQ;
+                if (vi_cpu_lv1_if.addr_bus_cpu_lv1 < 32'h4000_0000)
+                    packet.illegal = 1'b1; 
+                else
+                    packet.illegal = 1'b0;
             end
             packet.address = vi_cpu_lv1_if.addr_bus_cpu_lv1;
+            if(packet.address < 32'h4000_0000)
+            begin
+                packet.addr_type = ICACHE_ACC;
+            end
+            else
+            begin
+                packet.addr_type = DCACHE_ACC;
+            end
             
             @(posedge vi_cpu_lv1_if.data_in_bus_cpu_lv1 or posedge vi_cpu_lv1_if.cpu_wr_done)
             packet.dat = vi_cpu_lv1_if.data_bus_cpu_lv1;

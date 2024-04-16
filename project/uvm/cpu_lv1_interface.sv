@@ -60,7 +60,7 @@ interface cpu_lv1_interface(input clk);
 //ASSERTION4: cpu_rd and addr_bus_cpu_lv1 are asserted simultaneously
     property prop_simult_cpu_rd_addr;
         @(posedge clk)
-            (cpu_rd) |-> |addr_bus_cpu_lv1;
+            (cpu_rd) |-> ##[0:100] $rose(data_bus_cpu_lv1);
     endproperty
 
     assert_prop_simult_cpu_rd_addr: assert property (prop_simult_cpu_rd_addr)

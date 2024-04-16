@@ -63,7 +63,7 @@ interface system_bus_interface(input clk);
 //ASSERTION3: no bus_lv1_lv2_gnt_snoop without bus_lv1_lv2_req_snoop
     property no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop;
         @(posedge clk)
-            (bus_lv1_lv2_gnt_snoop) |-> (bus_lv1_lv2_req_snoop);
+            (bus_lv1_lv2_req_snoop) |=> (bus_lv1_lv2_gnt_snoop);
     endproperty
 
     assert_no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop: assert property (no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop)
