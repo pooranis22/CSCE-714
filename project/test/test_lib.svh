@@ -7,8 +7,5 @@
 //TODO: add your testcase files in here
 `include "base_test.sv"
 `include "read_miss_icache.sv"
-`include "read_hit_icache.sv"
 `include "read_miss_dcache.sv"
-`include "read_hit_dcache.sv"
 `include "write_miss_dcache.sv"
-`include "write_hit_dcache.sv"
