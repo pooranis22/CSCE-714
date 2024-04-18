@@ -1,14 +1,14 @@
 //=====================================================================
 // Project: 4 core MESI cache design
-// File Name: mesi_rar_dcache.sv
+// File Name: read_miss_dcache.sv
 // Description: Test for (read-miss + free block) and (read-miss + no free block) to D-cache
 // Modifiers: Quy
 //=====================================================================
 
-class mesi_rar_dcache extends base_test;
+class read_miss_dcache extends base_test;
 
     //component macro
-    `uvm_component_utils(mesi_rar_dcache)
+    `uvm_component_utils(read_miss_dcache)
 
     //Constructor
     function new(string name, uvm_component parent);
@@ -17,28 +17,28 @@ class mesi_rar_dcache extends base_test;
 
     //UVM build phase
     function void build_phase(uvm_phase phase);
-        uvm_config_wrapper::set(this, "tb.vsequencer.run_phase", "default_sequence", mesi_rar_dcache_seq::type_id::get());
+        uvm_config_wrapper::set(this, "tb.vsequencer.run_phase", "default_sequence", read_miss_dcache_seq::type_id::get());
         super.build_phase(phase);
     endfunction : build_phase
 
     //UVM run phase()
     task run_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), "Executing mesi_rar_dcache test" , UVM_LOW)
+        `uvm_info(get_type_name(), "Executing read_miss_dcache test" , UVM_LOW)
     endtask: run_phase
 
-endclass : mesi_rar_dcache
+endclass : read_miss_dcache
 
 
 // Sequence for a read-miss on I-cache
-class mesi_rar_dcache_seq extends base_vseq;
+class read_miss_dcache_seq extends base_vseq;
     //object macro
-    `uvm_object_utils(mesi_rar_dcache_seq)
+    `uvm_object_utils(read_miss_dcache_seq)
 
     cpu_transaction_c trans;
     bit [`ADDR_WID_LV1:0] set_addr[5];
     rand bit [`DATA_WID_LV1:0] rand_data;
     //constructor
-    function new (string name="mesi_rar_dcache_seq");
+    function new (string name="read_miss_dcache_seq");
         super.new(name);
     endfunction : new
 
@@ -66,4 +66,4 @@ class mesi_rar_dcache_seq extends base_vseq;
         #1000;
     endtask
 
-endclass : mesi_rar_dcache_seq
+endclass : read_miss_dcache_seq

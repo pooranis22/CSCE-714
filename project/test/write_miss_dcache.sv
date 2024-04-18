@@ -1,14 +1,14 @@
 //=====================================================================
 // Project: 4 core MESI cache design
-// File Name: mesi_raw_dcache.sv
+// File Name: write_miss_dcache.sv
 // Description: Test for (write miss + free block) and (write + no free block) to D-cache
 // Modifiers: Quy
 //=====================================================================
 
-class mesi_raw_dcache extends base_test;
+class write_miss_dcache extends base_test;
 
     //component macro
-    `uvm_component_utils(mesi_raw_dcache)
+    `uvm_component_utils(write_miss_dcache)
 
     //Constructor
     function new(string name, uvm_component parent);
@@ -17,29 +17,29 @@ class mesi_raw_dcache extends base_test;
 
     //UVM build phase
     function void build_phase(uvm_phase phase);
-        uvm_config_wrapper::set(this, "tb.vsequencer.run_phase", "default_sequence", mesi_raw_dcache_seq::type_id::get());
+        uvm_config_wrapper::set(this, "tb.vsequencer.run_phase", "default_sequence", write_miss_dcache_seq::type_id::get());
         super.build_phase(phase);
     endfunction : build_phase
 
     //UVM run phase()
     task run_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), "Executing mesi_raw_dcache test" , UVM_LOW)
+        `uvm_info(get_type_name(), "Executing write_miss_dcache test" , UVM_LOW)
     endtask: run_phase
 
-endclass : mesi_raw_dcache
+endclass : write_miss_dcache
 
 
 // Sequence for a read-miss on I-cache
-class mesi_raw_dcache_seq extends base_vseq;
+class write_miss_dcache_seq extends base_vseq;
     //object macro
-    `uvm_object_utils(mesi_raw_dcache_seq)
+    `uvm_object_utils(write_miss_dcache_seq)
 
     cpu_transaction_c trans;
     bit [`ADDR_WID_LV1:0] set_addr[5];
     bit [`DATA_WID_LV1:0] rand_data;
 
     //constructor
-    function new (string name="mesi_raw_dcache_seq");
+    function new (string name="write_miss_dcache_seq");
         super.new(name);
     endfunction : new
 
@@ -79,4 +79,4 @@ class mesi_raw_dcache_seq extends base_vseq;
 
     endtask
 
-endclass : mesi_raw_dcache_seq
+endclass : write_miss_dcache_seq
