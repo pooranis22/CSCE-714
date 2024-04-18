@@ -60,35 +60,185 @@ interface system_bus_interface(input clk);
 
 //TODO: Add assertions at this interface
 //There are atleast 20 such assertions. Add as many as you can!!
-//ASSERTION3: no bus_lv1_lv2_gnt_snoop without bus_lv1_lv2_req_snoop
-    property no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop;
+//ASSERTION3: no bus_lv1_lv2_gnt_snoop without bus_lv1_lv2_req_snoop in past cycle
+    property no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop_in_past;
         @(posedge clk)
-            (bus_lv1_lv2_req_snoop) |=> (bus_lv1_lv2_gnt_snoop);
+            (bus_lv1_lv2_req_snoop) |-> ##[1:$] (bus_lv1_lv2_gnt_snoop);
     endproperty
 
-    assert_no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop: assert property (no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop)
+    assert_no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop_in_past: assert property (no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop_in_past)
     else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop Failed: no_bus_lv1_lv2_gnt_snoop without bus_lv1_lv2_req_snoop"))
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_bus_lv1_lv2_gnt_snoop_without_bus_lv1_lv2_req_snoop_in_past Failed: no_bus_lv1_lv2_gnt_snoop without bus_lv1_lv2_req_snoop"))
 
-//ASSERTION4: bus_lv1_lv2_req_proc and bus_lv1_lv2_gnt_proc deassert at the same time
+//ASSERTION4: bus_lv1_lv2_req_snoop and bus_lv1_lv2_gnt_snoop deassert at the same time
+    property bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult;
+        @(posedge clk)
+          $rose(bus_lv1_lv2_req_snoop) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_snoop) |-> ##[1:$] $fell(bus_lv1_lv2_req_snoop) |-> $fell(bus_lv1_lv2_gnt_snoop);
+    endproperty
+
+    assert_bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult: assert property (bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult Failed: bus_lv1_lv2_req_snoop and bus_lv1_lv2_gnt_snoop deassert simultaneously"))
+
+//ASSERTION5: no bus_lv1_lv2_gnt_proc without bus_lv1_lv2_req_proc
+    property no_bus_lv1_lv2_gnt_proc_without_bus_lv1_lv2_req_proc_in_past;
+        @(posedge clk)
+            (bus_lv1_lv2_req_proc) |-> ##[1:$] (bus_lv1_lv2_gnt_proc);
+    endproperty
+
+    assert_no_bus_lv1_lv2_gnt_proc_without_bus_lv1_lv2_req_proc_in_past: assert property (no_bus_lv1_lv2_gnt_proc_without_bus_lv1_lv2_req_proc_in_past)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_bus_lv1_lv2_gnt_proc_without_bus_lv1_lv2_req_proc_in_past Failed: no_bus_lv1_lv2_gnt_snoop without bus_lv1_lv2_req_snoop"))
+        
+//ASSERTION6: bus_lv1_lv2_req_proc and bus_lv1_lv2_gnt_proc deassert at the same time
     property bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult;
         @(posedge clk)
-          $fell(bus_lv1_lv2_gnt_proc) |-> $fell(bus_lv1_lv2_req_proc);
+          $rose(bus_lv1_lv2_req_proc) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_proc) |-> ##[1:$] $fell(bus_lv1_lv2_req_proc) |-> $fell(bus_lv1_lv2_gnt_proc);
     endproperty
 
     assert_bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult: assert property (bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult)
     else
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult Failed: bus_lv1_lv2_req_proc and bus_lv1_lv2_gnt_proc deassert simultaneously"))
 
-//ASSERTION5: invalidate_and_share cannot assert simult
-    property invalidate_and_share_cannot_assert_simult;
+//ASSERTION7: no_bus_lv1_lv2_gnt_lv2_without_bus_lv1_lv2_req_lv2_in_past
+    property no_bus_lv1_lv2_gnt_lv2_without_bus_lv1_lv2_req_lv2_in_past;
         @(posedge clk)
-          not(invalidate && shared);
+            bus_lv1_lv2_req_lv2 |-> ##[1:$] bus_lv1_lv2_gnt_lv2;
     endproperty
 
-    assert_invalidate_and_share_cannot_assert_simult: assert property (invalidate_and_share_cannot_assert_simult)
+    assert_no_bus_lv1_lv2_gnt_lv2_without_bus_lv1_lv2_req_lv2_in_past: assert property (no_bus_lv1_lv2_gnt_lv2_without_bus_lv1_lv2_req_lv2_in_past)
     else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_invalidate_and_share_cannot_assert_simult Failed: invalidate and share cannot assert simultaneously"))
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_bus_lv1_lv2_gnt_lv2_without_bus_lv1_lv2_req_lv2_in_past Failed: no_bus_lv1_lv2_gnt_lv2_without_bus_lv1_lv2_req_lv2_in_past"))
+
+//ASSERTION8: no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul
+    property no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul;
+        @(posedge clk)
+            $rose(bus_lv1_lv2_req_lv2) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_lv2) |-> ##[1:$] $fell(bus_lv1_lv2_req_lv2) |-> $fell(bus_lv1_lv2_gnt_lv2);
+    endproperty
+
+    assert_no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul: assert property (no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul Failed: no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul"))
+
+//ASSERTION9: no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle
+    property no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle;
+        @(posedge clk)
+            $rose(cp_in_cache) |=> $fell(bus_lv1_lv2_req_lv2);
+    endproperty
+
+    assert_no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle: assert property (no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle Failed: no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle"))
+
+//ASSERTION10: no_lv2_wr_without_cp_in_cache_deassert
+    property no_lv2_wr_without_cp_in_cache_deassert;
+        @(posedge clk)
+            $rose(lv2_wr) |-> ($past(cp_in_cache) && !cp_in_cache);
+    endproperty
+
+    assert_no_lv2_wr_without_cp_in_cache_deassert: assert property (no_lv2_wr_without_cp_in_cache_deassert)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_lv2_wr_without_cp_in_cache_deassert Failed: no_lv2_wr_without_cp_in_cache_deassert"))
+
+//ASSERTION11: no_lv2_rd_assert_without_bus_rd_or_bus_rdx
+    property no_lv2_rd_assert_without_bus_rd_or_bus_rdx;
+        @(posedge clk)
+            (lv2_rd && (addr_bus_lv1_lv2 >= 32'h4000_0000)) |-> (bus_rd || bus_rdx);
+    endproperty
+
+    assert_no_lv2_rd_assert_without_bus_rd_or_bus_rdx: assert property (no_lv2_rd_assert_without_bus_rd_or_bus_rdx)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_lv2_rd_assert_without_bus_rd_or_bus_rdx Failed: no_lv2_rd_assert_without_bus_rd_or_bus_rdx"))
+
+//ASSERTION12: no_bus_rd_and_bus_rdx_not_together
+    property no_bus_rd_and_bus_rdx_not_together;
+        @(posedge clk)
+            not(bus_rd && bus_rdx);
+    endproperty
+
+    assert_no_bus_rd_and_bus_rdx_not_together: assert property (no_bus_rd_and_bus_rdx_not_together)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_bus_rd_and_bus_rdx_not_together Failed: no_bus_rd_and_bus_rdx_not_together"))
+
+//ASSERTION13: no_invalidate_without_bus_lv1_lv2_gnt_proc
+    property no_invalidate_without_bus_lv1_lv2_gnt_proc;
+        @(posedge clk)
+            bus_lv1_lv2_gnt_proc |-> ##[1:$] $rose(invalidate) |=> $rose(all_invalidation_done);
+    endproperty
+
+    assert_no_invalidate_without_bus_lv1_lv2_gnt_proc: assert property (no_invalidate_without_bus_lv1_lv2_gnt_proc)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_invalidate_without_bus_lv1_lv2_gnt_proc Failed: no_invalidate_without_bus_lv1_lv2_gnt_proc"))
+
+//ASSERTION14: invalidate_invalidation_done_all_invalidation_done_deassert_simultaneously
+    property invalidate_invalidation_done_all_invalidation_done_deassert_simul;
+        @(posedge clk)
+            $rose(invalidate) |-> ##[1:$] ($fell(invalidate) && $fell(all_invalidation_done));
+    endproperty
+
+    assert_invalidate_invalidation_done_all_invalidation_done_deassert_simul: assert property (invalidate_invalidation_done_all_invalidation_done_deassert_simul)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_invalidate_invalidation_done_all_invalidation_done_deassert_simul Failed: invalidate_invalidation_done_all_invalidation_done_deassert_simul"))
+
+//ASSERTION15: no_addr_in_bus_lv1_lv2_when_invalidation
+    property no_addr_in_bus_lv1_lv2_when_invalidation;
+        @(posedge clk)
+            all_invalidation_done |-> $past(addr_bus_lv1_lv2);
+    endproperty
+
+    assert_no_addr_in_bus_lv1_lv2_when_invalidation: assert property (no_addr_in_bus_lv1_lv2_when_invalidation)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_addr_in_bus_lv1_lv2_when_invalidation Failed: no_addr_in_bus_lv1_lv2_when_invalidation"))
+
+//ASSERTION16: no_shared_and_data_in_bus_lv1_lv2_simul
+    property no_shared_and_data_in_bus_lv1_lv2_simul;
+        @(posedge clk)
+            shared |-> data_in_bus_lv1_lv2;
+    endproperty
+
+    assert_no_shared_and_data_in_bus_lv1_lv2_simul: assert property (no_shared_and_data_in_bus_lv1_lv2_simul)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_shared_and_data_in_bus_lv1_lv2_simul Failed: no_shared_and_data_in_bus_lv1_lv2_simul"))
+
+//ASSERTION17: shared_and_bus_lv1_lv2_gnt_snoop
+    property shared_and_bus_lv1_lv2_gnt_snoop;
+        @(posedge clk)
+            bus_lv1_lv2_req_snoop |-> ##[1:$] shared;
+    endproperty
+
+    assert_shared_and_bus_lv1_lv2_gnt_snoop: assert property (shared_and_bus_lv1_lv2_gnt_snoop)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_shared_and_bus_lv1_lv2_gnt_snoop Failed: shared_and_bus_lv1_lv2_gnt_snoop"))
+
+//ASSERTION18: data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop
+    property data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop;
+        @(posedge clk)
+            $fell(data_in_bus_lv1_lv2) |-> $past(lv2_rd);
+    endproperty
+
+    assert_data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop: assert property (data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop Failed: data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop"))
+
+//ASSERTION19: no_lv2_wr_without_data_bus_lv1_lv2
+    property no_lv2_wr_without_data_bus_lv1_lv2;
+        @(posedge clk)
+            $rose(lv2_wr) |-> $changed(data_bus_lv1_lv2);
+    endproperty
+
+    assert_no_lv2_wr_without_data_bus_lv1_lv2: assert property (no_lv2_wr_without_data_bus_lv1_lv2)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_lv2_wr_without_data_bus_lv1_lv2 Failed: assert_no_lv2_wr_without_data_bus_lv1_lv2"))
+
+//ASSERTION20: lv2_wr_and_lv2_wr_done_deassert_simul
+    property lv2_wr_and_lv2_wr_done_deassert_simul;
+        @(posedge clk)
+            $rose(lv2_wr) |-> ##[1:$] ($fell(lv2_wr) && $fell(lv2_wr_done));
+    endproperty
+
+    assert_lv2_wr_and_lv2_wr_done_deassert_simul: assert property (lv2_wr_and_lv2_wr_done_deassert_simul)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_lv2_wr_and_lv2_wr_done_deassert_simul Failed: lv2_wr_and_lv2_wr_done_deassert_simul"))
 
 
 
