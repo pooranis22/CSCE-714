@@ -37,45 +37,54 @@ interface cpu_lv1_interface(input clk);
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_simult_cpu_wr_rd Failed: cpu_wr and cpu_rd asserted simultaneously"))
 
 //TODO: Add assertions at this interface
-//ASSERTION2: no_cpu_wr_done_without_previous_posedge_cpu_wr
+//ASSERTION2: data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert
     property data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert;
         @(posedge clk)
-          $fell(cpu_rd) |-> ##1 $fell(data_in_bus_cpu_lv1);
+          $rose(cpu_rd) |-> ##[1:$] $fell(cpu_rd) |=> $fell(data_in_bus_cpu_lv1);
     endproperty
 
     assert_data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert: assert property (data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert)
     else
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert Failed: data_in_bus_cpu_lv1 did not deassert one cycle after cpu_rd deassert"))
 
-//ASSERTION3: cpu_wr_done deassert 1 clock cycle after cpu_wr deassert
-    property cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert;
-        @(posedge clk)
-           $fell(cpu_wr) |-> ##1 $fell(cpu_wr_done);
-    endproperty
-
-    assert_cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert: assert property (cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert)
-    else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert Failed: cpu_wr_done did not deassert one cycle after cpu_wr_deassert"))
-
-//ASSERTION4: cpu_rd and addr_bus_cpu_lv1 are asserted simultaneously
+//ASSERTION3: cpu_rd and addr_bus_cpu_lv1 are asserted simultaneously
     property prop_simult_cpu_rd_addr;
         @(posedge clk)
-            (cpu_rd) |-> ##[0:100] $rose(data_bus_cpu_lv1);
+            $rose(cpu_rd) |-> ##[1:$] $changed(data_bus_cpu_lv1);
     endproperty
 
     assert_prop_simult_cpu_rd_addr: assert property (prop_simult_cpu_rd_addr)
     else
         `uvm_error("cpu_lv1_interface", $sformatf("Assertion assert_prop_simult_cpu_rd_addr Failed: cpu_rd and addr_bus_cpu_lv1 are not asserted simultaneously"))
 
+//ASSERTION4: cpu_wr_done deassert 1 clock cycle after cpu_wr deassert
+    property cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert;
+        @(posedge clk)
+           $rose(cpu_wr) |-> ##[1:$] $rose(cpu_wr_done) |=> $fell(cpu_wr) |-> ##1 $fell(cpu_wr_done);
+    endproperty
+
+    assert_cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert: assert property (cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert Failed: cpu_wr_done did not deassert one cycle after cpu_wr_deassert"))
+
 //ASSERTION5: cpu_wr does have a corresponding address
     property prop_cpu_wr_addr;
         @(posedge clk)
-            (cpu_wr) |-> |addr_bus_cpu_lv1;
+            $rose(cpu_wr) |-> $changed(addr_bus_cpu_lv1);
     endproperty
 
     assert_prop_cpu_wr_addr: assert property (prop_cpu_wr_addr)
     else
         `uvm_error("cpu_lv1_interface", $sformatf("Assertion assert_prop_cpu_wr_addr Failed: cpu_wr does not have a corresponding address"))
-    
+
+//ASSERTION6: cpu_wr_should_have_addr_bus_cpu_lv1_and_data_bus_cpu_lv1
+    property cpu_wr_should_have_addr_bus_cpu_lv1_and_data_bus_cpu_lv1;
+        @(posedge clk)
+            $rose(cpu_wr) |-> ($changed(addr_bus_cpu_lv1) && $changed(data_bus_cpu_lv1));
+    endproperty
+
+    assert_cpu_wr_should_have_addr_bus_cpu_lv1_and_data_bus_cpu_lv1: assert property (cpu_wr_should_have_addr_bus_cpu_lv1_and_data_bus_cpu_lv1)
+    else
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_cpu_wr_should_have_addr_bus_cpu_lv1_and_data_bus_cpu_lv1 Failed: cpu_wr_should_have_addr_bus_cpu_lv1_and_data_bus_cpu_lv1"))
 
 endinterface

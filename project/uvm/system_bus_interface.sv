@@ -113,7 +113,7 @@ interface system_bus_interface(input clk);
 //ASSERTION8: no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul
     property no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul;
         @(posedge clk)
-            $rose(bus_lv1_lv2_req_lv2) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_lv2) |-> ##[1:$] $fell(bus_lv1_lv2_req_lv2) |-> $fell(bus_lv1_lv2_gnt_lv2);
+            ($rose(bus_lv1_lv2_req_lv2) && !cp_in_cache) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_lv2) |-> ##[1:$] ($fell(bus_lv1_lv2_req_lv2) && $fell(bus_lv1_lv2_gnt_lv2));
     endproperty
 
     assert_no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul: assert property (no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul)
@@ -130,15 +130,15 @@ interface system_bus_interface(input clk);
     else
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle Failed: no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle"))
 
-//ASSERTION10: no_lv2_wr_without_cp_in_cache_deassert
-    property no_lv2_wr_without_cp_in_cache_deassert;
+//ASSERTION10: no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx
+    property no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx;
         @(posedge clk)
-            $rose(lv2_wr) |-> ($past(cp_in_cache) && !cp_in_cache);
+            ($rose(bus_rd) || $rose(bus_rdx)) |=> $rose(cp_in_cache);
     endproperty
 
-    assert_no_lv2_wr_without_cp_in_cache_deassert: assert property (no_lv2_wr_without_cp_in_cache_deassert)
+    assert_no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx: assert property (no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx)
     else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_lv2_wr_without_cp_in_cache_deassert Failed: no_lv2_wr_without_cp_in_cache_deassert"))
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx Failed: no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx"))
 
 //ASSERTION11: no_lv2_rd_assert_without_bus_rd_or_bus_rdx
     property no_lv2_rd_assert_without_bus_rd_or_bus_rdx;
