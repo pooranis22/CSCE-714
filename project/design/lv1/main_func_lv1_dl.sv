@@ -77,7 +77,7 @@ module main_func_lv1_dl #(
                          output reg [ASSOC*TAG_WID - 1  : 0] cache_snoop_tag
                          );
 
-    parameter INVALID   = 2'bzz;
+    parameter INVALID   = 2'b00;
     parameter SHARED    = 2'b01;
     parameter EXCLUSIVE = 2'b10;
     parameter MODIFIED  = 2'b11;
@@ -134,7 +134,7 @@ module main_func_lv1_dl #(
         data_in_bus_lv1_lv2_reg <= 1'bz;
         invalidate_reg          <= 1'bz;
         bus_rd_reg              <= 1'bz;
-        bus_rdx_reg             <= 1'b0;
+        bus_rdx_reg             <= 1'bz;
         invalidation_done       <= 1'b0;
         bus_lv1_lv2_req_proc_dl <= 1'b0;
         bus_lv1_lv2_req_snoop   <= 1'b0;
@@ -298,7 +298,7 @@ module main_func_lv1_dl #(
                 invalidation_done         <= 1'b1;
             end
             else if(bus_rdx) begin
-                cp_in_cache           <= 1'b0;
+                cp_in_cache           <= 1'b1;
                 case (`CACHE_CURRENT_MESI_SNOOP)
                     SHARED: begin
                         shared_local              <= 1'b1;
