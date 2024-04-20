@@ -130,15 +130,15 @@ interface system_bus_interface(input clk);
     else
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle Failed: no_cp_in_cache_assert_and_bus_lv1_lv2_req_lv2_deassert_next_cycle"))
 
-//ASSERTION10: no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx
-    property no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx;
+//ASSERTION10: no_cp_in_cache_with_lv2_wr_and_lv2_rd_high
+    property no_cp_in_cache_with_lv2_wr_and_lv2_rd_high;
         @(posedge clk)
-            ($rose(bus_rd) || $rose(bus_rdx)) |=> $rose(cp_in_cache);
+            (lv2_wr && lv2_rd) |=> (cp_in_cache);
     endproperty
 
-    assert_no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx: assert property (no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx)
+    assert_no_cp_in_cache_with_lv2_wr_and_lv2_rd_high: assert property (no_cp_in_cache_with_lv2_wr_and_lv2_rd_high)
     else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx Failed: no_cp_in_cache_one_cycle_after_bus_rd_or_bus_rdx"))
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_cp_in_cache_with_lv2_wr_and_lv2_rd_high Failed: no_cp_in_cache_with_lv2_wr_and_lv2_rd_high"))
 
 //ASSERTION11: no_lv2_rd_assert_without_bus_rd_or_bus_rdx
     property no_lv2_rd_assert_without_bus_rd_or_bus_rdx;

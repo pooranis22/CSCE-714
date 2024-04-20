@@ -34,6 +34,7 @@ class write_miss_dcache_seq extends base_vseq;
     //object macro
     `uvm_object_utils(write_miss_dcache_seq)
 
+    event write_miss_free_all_cpu_done, write_miss_free_cpu0_done;
     cpu_transaction_c trans;
     bit [`ADDR_WID_LV1:0] set_addr[5];
     bit [`DATA_WID_LV1:0] rand_data;
@@ -47,11 +48,15 @@ class write_miss_dcache_seq extends base_vseq;
         //Write miss + free block in the same address
         set_addr = '{32'h4000_0000, 32'h4001_0000, 32'h4002_0000, 32'h4003_0000, 32'h4004_0000};
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0]; data == rand_data;})
+        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0]; data == rand_data;})
+        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0]; data == rand_data;})
+        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0]; data == rand_data;})
+        ->write_miss_free_all_cpu_done;
+        
         //Write miss + free block to fill up cache cpu 0
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[1]; data == rand_data;})
@@ -59,24 +64,11 @@ class write_miss_dcache_seq extends base_vseq;
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[2]; data == rand_data;})
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[3]; data == rand_data;})
+        ->write_miss_free_cpu0_done;
         
         // Write miss + no free block
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[4]; data == rand_data;})
-        
-        // Read hit all the written address 
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[1];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[2];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[3];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[4];})
-
-        // Read other cpu to check invalid data
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        #1000;
-
     endtask
 
 endclass : write_miss_dcache_seq

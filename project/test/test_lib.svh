@@ -9,3 +9,5 @@
 `include "read_miss_icache.sv"
 `include "read_miss_dcache.sv"
 `include "write_miss_dcache.sv"
+`include "mesi_write_hit_dcache.sv"
+`include "mesi_write_miss_dcache.sv"
