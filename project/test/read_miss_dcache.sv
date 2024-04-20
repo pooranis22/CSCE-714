@@ -47,21 +47,6 @@ class read_miss_dcache_seq extends base_vseq;
         set_addr = '{32'h4000_0000, 32'h4001_0000, 32'h4002_0000, 32'h4003_0000, 32'h4004_0000};
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
-        
-        // // Fill up cache cpu 0
-        // rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[1]; data == rand_data;})
-        // rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[2]; data == rand_data;})
-        // rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[3]; data == rand_data;})
-
-        // //Read miss + no free block in same set address in cpu0
-        // rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        // `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[4]; data == rand_data;})
 
         // Fill up cache cpu 0
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[1];})

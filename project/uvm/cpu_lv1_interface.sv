@@ -60,7 +60,7 @@ interface cpu_lv1_interface(input clk);
 //ASSERTION4: cpu_wr_done deassert 1 clock cycle after cpu_wr deassert
     property cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert;
         @(posedge clk)
-           $rose(cpu_wr) |-> ##[1:$] $rose(cpu_wr_done) |=> $fell(cpu_wr) |-> ##1 $fell(cpu_wr_done);
+           $rose(cpu_wr) |-> ##[1:$] $fell(cpu_wr) |-> ##1 $fell(cpu_wr_done);
     endproperty
 
     assert_cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert: assert property (cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert)

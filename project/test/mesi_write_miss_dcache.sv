@@ -45,20 +45,38 @@ class mesi_write_miss_dcache_seq extends base_vseq;
     endfunction : new
 
     virtual task body();
-    //Write Hit Exclusive State
+    //Write Miss Exclusive State
         set_addr = $urandom_range(32'h4000_0000, 32'hffff_ffff);
-        //READ Miss 1 cpu to make E state
+        //READ Miss cpu0 to make E state
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
-        
-        //WRITE hit cpu0 with the same addr => WRITE Hit E State
-        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
-        
-        //WRITE MISS cpu1 with the same addr => write back
+        //WRITE MISS cpu1 with the same addr => no write back
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
 
-    //WRITE Hit Shared State
+    //WRITE Miss same addr + Shared State 
+        set_addr = $urandom_range(32'h4000_0000, 32'hffff_ffff);
+        //READ Miss cpu1,2,3 to make Shared State
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+
+        //WRITE MISS cpu0 with the same addr => no write back
+        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
+
+    //WRITE Miss diff addr + Shared State 
+        set_addr = $urandom_range(32'h4000_0000, 32'hffff_ffff);
+        //READ Miss cpu0,1,2,3 to make Shared State
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
+
+        //WRITE MISS cpu0 with the diff addr => no write back
+        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
+        
+    //WRITE Miss Modified State
         set_addr = $urandom_range(32'h4000_0000, 32'hffff_ffff);
         //READ Miss all cpu to make Shared State
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
@@ -66,30 +84,15 @@ class mesi_write_miss_dcache_seq extends base_vseq;
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
         
-        //WRITE hit cpu0 with the same addr => WRITE Hit Shared State and invalid cpu1 and cpu2 and cpu3
+        //WRITE hit cpu1 with the same addr => invalid cpu1 and cpu2 and cpu3
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
         
-        //WRITE MISS cpu1 with the same addr => write back
-        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
-
-    //WRITE Hit Modified State
-        set_addr = $urandom_range(32'h4000_0000, 32'hffff_ffff);
-        //READ Miss all cpu to make Shared State
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[1], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[2], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[3], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr;})
-        
-        //WRITE hit cpu0 with the same addr => invalid cpu1 and cpu2 and cpu3
-        rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
-        
-        //WRITE MISS cpu0 with the same addr => WRITE HIT MODIFIED
+        //WRITE MISS cpu0 with the same addr => write back
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr; data == rand_data;})
         #1000;
+
     endtask
 
 endclass : mesi_write_miss_dcache_seq

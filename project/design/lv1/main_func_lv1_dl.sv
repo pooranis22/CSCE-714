@@ -173,7 +173,7 @@ module main_func_lv1_dl #(
                     bus_lv1_lv2_req_proc_dl <= 1'b0;
                     lv2_rd                  <= 1'b0;
                     addr_bus_lv1_lv2_reg    <= 32'hz;
-                    bus_rd_reg              <= 1'b1;
+                    bus_rd_reg              <= 1'b0;
                     invalidate_reg          <= 1'b0;
                     bus_rdx_reg             <= 1'b0;
                 end
@@ -191,7 +191,7 @@ module main_func_lv1_dl #(
                             lv2_wr               <= 1'b1;
                             data_bus_lv1_lv2_reg <= cache_var[{index_proc,2'b00}];
                             if(lv2_wr_done) begin
-                                `CACHE_CURRENT_MESI_PROC <= MODIFIED;
+                                `CACHE_CURRENT_MESI_PROC <= INVALID;
                                  addr_bus_lv1_lv2_reg    <= 32'hz;
                                  lv2_wr                  <= 1'b0;
                                  data_bus_lv1_lv2_reg    <= 32'hz;
@@ -218,7 +218,7 @@ module main_func_lv1_dl #(
                 case (`CACHE_CURRENT_MESI_PROC)
                     SHARED: begin
                         if(bus_lv1_lv2_gnt_proc) begin
-                            invalidate_reg       <= 1'bz;
+                            invalidate_reg       <= 1'b1;
                             bus_rd_reg           <= 1'b0;
                             bus_rdx_reg          <= 1'b0;
                             addr_bus_lv1_lv2_reg <= {tag_proc,index_proc,2'b00};
@@ -256,7 +256,7 @@ module main_func_lv1_dl #(
                         `CACHE_CURRENT_TAG_PROC                 <= tag_proc;
                         bus_lv1_lv2_req_proc_dl                 <= 1'b0;
                         lv2_rd                                  <= 1'b0;
-                        bus_rdx_reg                             <= 1'b1;
+                        bus_rdx_reg                             <= 1'b0;
                         bus_rd_reg                              <= 1'b0;
                         invalidate_reg                          <= 1'b0;
                         addr_bus_lv1_lv2_reg                    <= 32'hz;
@@ -277,7 +277,7 @@ module main_func_lv1_dl #(
                             invalidate_reg           <= 1'b0;
                             addr_bus_lv1_lv2_reg <= {`CACHE_CURRENT_TAG_PROC,index_proc,2'b00};
                             data_bus_lv1_lv2_reg <= cache_var[{index_proc,blk_access_proc}];
-                            lv2_wr                  <= 1'b0;
+                            lv2_wr                  <= 1'b1;
                             if (lv2_wr_done) begin
                                 `CACHE_CURRENT_MESI_PROC <= INVALID;
                                 lv2_wr                   <= 1'b0;

@@ -190,15 +190,15 @@ interface system_bus_interface(input clk);
     else
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_addr_in_bus_lv1_lv2_when_invalidation Failed: no_addr_in_bus_lv1_lv2_when_invalidation"))
 
-//ASSERTION16: no_shared_and_data_in_bus_lv1_lv2_simul
-    property no_shared_and_data_in_bus_lv1_lv2_simul;
+//ASSERTION16: bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert
+    property bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert;
         @(posedge clk)
-            shared |-> data_in_bus_lv1_lv2;
+            $rose(data_in_bus_lv1_lv2) |=> (!bus_rd && !bus_rdx);
     endproperty
 
-    assert_no_shared_and_data_in_bus_lv1_lv2_simul: assert property (no_shared_and_data_in_bus_lv1_lv2_simul)
+    assert_bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert: assert property (bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert)
     else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_shared_and_data_in_bus_lv1_lv2_simul Failed: no_shared_and_data_in_bus_lv1_lv2_simul"))
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert Failed: bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert"))
 
 //ASSERTION17: shared_and_bus_lv1_lv2_gnt_snoop
     property shared_and_bus_lv1_lv2_gnt_snoop;
