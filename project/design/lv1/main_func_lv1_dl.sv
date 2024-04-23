@@ -189,7 +189,7 @@ module main_func_lv1_dl #(
                         if(bus_lv1_lv2_gnt_proc) begin
                             addr_bus_lv1_lv2_reg <= {`CACHE_CURRENT_TAG_PROC,index_proc,2'b00};
                             lv2_wr               <= 1'b1;
-                            data_bus_lv1_lv2_reg <= cache_var[{index_proc,2'b00}];
+                            data_bus_lv1_lv2_reg <= cache_var[{index_proc,blk_access_proc}];
                             if(lv2_wr_done) begin
                                 `CACHE_CURRENT_MESI_PROC <= INVALID;
                                  addr_bus_lv1_lv2_reg    <= 32'hz;
