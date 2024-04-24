@@ -1,8 +1,8 @@
 //=====================================================================
 // Project: 4 core MESI cache design
 // File Name: write_miss_dcache.sv
-// Description: Test for (write miss + free block) and (write + no free block) to D-cache
-// Modifiers: Quy
+// Description: Test for simple (write miss + free block) and (write + no free block) to D-cache
+// Modifiers: Quy Van
 //=====================================================================
 
 class write_miss_dcache extends base_test;

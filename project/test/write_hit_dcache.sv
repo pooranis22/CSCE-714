@@ -1,7 +1,7 @@
 //=====================================================================
 // Project: 4 core MESI cache design
 // File Name: write_hit_dcache.sv
-// Description: Test for MESI write after read (E -> M) and (S -> M) to D-cache
+// Description: Test for simple write hit to D-cache
 // Modifiers: Quy Van and Jay Bagali
 //=====================================================================
 
@@ -29,7 +29,7 @@ class write_hit_dcache extends base_test;
 endclass : write_hit_dcache
 
 
-// Sequence for a read-miss on I-cache
+// Sequence for a read-miss on D-cache
 class write_hit_dcache_seq extends base_vseq;
     //object macro
     `uvm_object_utils(write_hit_dcache_seq)
@@ -53,10 +53,10 @@ class write_hit_dcache_seq extends base_vseq;
 
         // Write hit to all addr in cpu0
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0]; data == rand_data;})
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[1]; data == rand_data;})
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[2]; data == rand_data;})
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[3]; data == rand_data;})
-        `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[4]; data == rand_data;})
 
         //Read Hit 
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})

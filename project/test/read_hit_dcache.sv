@@ -1,8 +1,8 @@
 //=====================================================================
 // Project: 4 core MESI cache design
 // File Name: read_hit_dcache.sv
-// Description: Test for (read-miss + free block) and (read-miss + no free block) to D-cache
-// Modifiers: Quy
+// Description: Test for read-hit to D-cache
+// Modifiers: Quy Van
 //=====================================================================
 
 class read_hit_dcache extends base_test;
@@ -29,7 +29,7 @@ class read_hit_dcache extends base_test;
 endclass : read_hit_dcache
 
 
-// Sequence for a read-miss on I-cache
+// Sequence for a read-hit on D-cache
 class read_hit_dcache_seq extends base_vseq;
     //object macro
     `uvm_object_utils(read_hit_dcache_seq)
@@ -43,9 +43,11 @@ class read_hit_dcache_seq extends base_vseq;
     endfunction : new
 
     virtual task body();
-        //Read hit with free block
+        
         set_addr = '{32'h4000_0000, 32'h4001_0000, 32'h4002_0000, 32'h4003_0000, 32'h4004_0000};
         rand_data = $urandom_range(32'h0000_0000,32'hffff_ffff);
+        
+        //Read hit with free block
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
         `uvm_do_on_with(trans, p_sequencer.cpu_seqr[0], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[0];})
 
