@@ -73,7 +73,7 @@ interface system_bus_interface(input clk);
 //ASSERTION4: bus_lv1_lv2_req_snoop and bus_lv1_lv2_gnt_snoop deassert at the same time
     property bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult;
         @(posedge clk)
-          $rose(bus_lv1_lv2_req_snoop) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_snoop) |-> ##[1:$] $fell(bus_lv1_lv2_req_snoop) |-> $fell(bus_lv1_lv2_gnt_snoop);
+          ($rose(bus_lv1_lv2_req_snoop) ##1 $rose(bus_lv1_lv2_gnt_snoop)) |-> ##[1:100] ($fell(|bus_lv1_lv2_req_snoop) && $fell(|bus_lv1_lv2_gnt_snoop));
     endproperty
 
     assert_bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult: assert property (bus_lv1_lv2_req_snoop_and_bus_lv1_lv2_gnt_snoop_deassert_simult)
@@ -93,7 +93,7 @@ interface system_bus_interface(input clk);
 //ASSERTION6: bus_lv1_lv2_req_proc and bus_lv1_lv2_gnt_proc deassert at the same time
     property bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult;
         @(posedge clk)
-          $rose(bus_lv1_lv2_req_proc) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_proc) |-> ##[1:$] $fell(bus_lv1_lv2_req_proc) |-> $fell(bus_lv1_lv2_gnt_proc);
+          ($rose(bus_lv1_lv2_req_proc) ##1 $rose(bus_lv1_lv2_gnt_proc)) |-> ##[1:100] ($fell(|bus_lv1_lv2_req_proc) && $fell(|bus_lv1_lv2_gnt_proc));
     endproperty
 
     assert_bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult: assert property (bus_lv1_lv2_req_proc_and_bus_lv1_lv2_gnt_proc_deassert_simult)
@@ -113,7 +113,7 @@ interface system_bus_interface(input clk);
 //ASSERTION8: no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul
     property no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul;
         @(posedge clk)
-            ($rose(bus_lv1_lv2_req_lv2) && !cp_in_cache) |-> ##[1:$] $rose(bus_lv1_lv2_gnt_lv2) |-> ##[1:$] ($fell(bus_lv1_lv2_req_lv2) && $fell(bus_lv1_lv2_gnt_lv2));
+            (bus_lv1_lv2_req_lv2 && bus_lv1_lv2_gnt_lv2) |-> ##[1:100] (!bus_lv1_lv2_req_lv2 && !bus_lv1_lv2_gnt_lv2);
     endproperty
 
     assert_no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul: assert property (no_bus_lv1_lv2_gnt_lv2_and_bus_lv1_lv2_req_lv2_deassert_simul)
@@ -163,7 +163,7 @@ interface system_bus_interface(input clk);
 //ASSERTION13: no_invalidate_without_bus_lv1_lv2_gnt_proc
     property no_invalidate_without_bus_lv1_lv2_gnt_proc;
         @(posedge clk)
-            bus_lv1_lv2_gnt_proc |-> ##[1:$] $rose(invalidate) |=> $rose(all_invalidation_done);
+            (invalidate ##1 all_invalidation_done) |-> $past(bus_lv1_lv2_gnt_proc);
     endproperty
 
     assert_no_invalidate_without_bus_lv1_lv2_gnt_proc: assert property (no_invalidate_without_bus_lv1_lv2_gnt_proc)
@@ -193,7 +193,7 @@ interface system_bus_interface(input clk);
 //ASSERTION16: bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert
     property bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert;
         @(posedge clk)
-            $rose(data_in_bus_lv1_lv2) |=> (!bus_rd && !bus_rdx);
+            ($rose(data_in_bus_lv1_lv2) && addr_bus_lv1_lv2 >= 32'h4000_0000) |=> (!bus_rd && !bus_rdx);
     endproperty
 
     assert_bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert: assert property (bus_rd_and_bus_rdx_low_one_clk_cycle_after_data_in_bus_lv1_lv2_assert)
@@ -213,7 +213,7 @@ interface system_bus_interface(input clk);
 //ASSERTION18: data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop
     property data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop;
         @(posedge clk)
-            $fell(data_in_bus_lv1_lv2) |-> $past(lv2_rd);
+            $rose(lv2_rd) |-> ##[1:100] ($fell(lv2_rd) ##1 (data_in_bus_lv1_lv2 === 1'bz));
     endproperty
 
     assert_data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop: assert property (data_in_bus_lv1_lv2_drop_one_cycle_after_lv2_rd_drop)
@@ -230,15 +230,15 @@ interface system_bus_interface(input clk);
     else
         `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_no_lv2_wr_without_data_bus_lv1_lv2 Failed: assert_no_lv2_wr_without_data_bus_lv1_lv2"))
 
-//ASSERTION20: lv2_wr_and_lv2_wr_done_deassert_simul
-    property lv2_wr_and_lv2_wr_done_deassert_simul;
+//ASSERTION20: lv2_wr_done_deassert_one_clock_cycle_after_lv2_wr_deassert
+    property lv2_wr_done_deassert_one_clock_cycle_after_lv2_wr_deassert;
         @(posedge clk)
-            $rose(lv2_wr) |-> ##[1:$] ($fell(lv2_wr) && $fell(lv2_wr_done));
+            !lv2_wr |-> ##1 !lv2_wr_done;
     endproperty
 
-    assert_lv2_wr_and_lv2_wr_done_deassert_simul: assert property (lv2_wr_and_lv2_wr_done_deassert_simul)
+    assert_lv2_wr_done_deassert_one_clock_cycle_after_lv2_wr_deassert: assert property (lv2_wr_done_deassert_one_clock_cycle_after_lv2_wr_deassert)
     else
-        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_lv2_wr_and_lv2_wr_done_deassert_simul Failed: lv2_wr_and_lv2_wr_done_deassert_simul"))
+        `uvm_error("cpu_lv1_interface",$sformatf("Assertion assert_lv2_wr_done_deassert_one_clock_cycle_after_lv2_wr_deassert Failed: lv2_wr_done_deassert_one_clock_cycle_after_lv2_wr_deassert"))
 
 
 

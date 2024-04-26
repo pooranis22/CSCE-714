@@ -40,7 +40,7 @@ interface cpu_lv1_interface(input clk);
 //ASSERTION2: data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert
     property data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert;
         @(posedge clk)
-          $rose(cpu_rd) |-> ##[1:$] $fell(cpu_rd) |=> $fell(data_in_bus_cpu_lv1);
+          (cpu_rd ##[1:100] !cpu_rd) |=> !data_in_bus_cpu_lv1;
     endproperty
 
     assert_data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert: assert property (data_in_bus_cpu_lv1_deassert_one_cycle_after_cpu_rd_deassert)
@@ -60,7 +60,8 @@ interface cpu_lv1_interface(input clk);
 //ASSERTION4: cpu_wr_done deassert 1 clock cycle after cpu_wr deassert
     property cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert;
         @(posedge clk)
-           $rose(cpu_wr) |-> ##[1:$] $fell(cpu_wr) |-> ##1 $fell(cpu_wr_done);
+        //    $rose(cpu_wr) |-> ##[1:$] $fell(|cpu_wr) |-> ##1 $fell(|cpu_wr_done);
+           (cpu_wr ##[1:100] !cpu_wr) |-> ##1 !cpu_wr_done;
     endproperty
 
     assert_cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert: assert property (cpu_wr_done_deassert_one_cycle_after_cpu_wr_deassert)

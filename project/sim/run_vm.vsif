@@ -17,61 +17,85 @@ group all_test {
 
 
       test test1 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST1" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_dcache -define READ_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test2 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST2" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_hit_dcache -define READ_HIT_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test3 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST3" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=write_miss_dcache -define WRITE_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test4 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST4" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=write_hit_dcache -define WRITE_HIT_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test5 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST5" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=mesi_read_miss_dcache -define MESI_READ_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test6 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST6" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=mesi_write_miss_dcache -define MESI_WRITE_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test7 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST7" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=mesi_write_hit_dcache -define MESI_WRITE_HIT_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test8 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST8" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=randomized_dcache -define RND_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test9 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST9" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_read_miss_dcache -define RND_READ_MISS_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
       test test10 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST10" ;
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_write_miss_dcache -define RND_WRITE_MISS_DCACHE -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test11 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_write_hit_dcache -define RND_WRITE_HIT_DCACHE -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test12 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_read_icache -define RND_READ_ICACHE -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test13 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_write_icache -define RND_WRITE_ICACHE -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test14 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=randomized_icache -define RND_ICACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };

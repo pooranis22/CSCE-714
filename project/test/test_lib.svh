@@ -8,6 +8,9 @@
 `include "base_test.sv"
 
 `include "read_miss_icache.sv"
+`include "random_read_icache.sv"
+`include "random_write_icache.sv"
+`include "randomized_icache.sv"
 
 `include "read_miss_dcache.sv"
 `include "read_hit_dcache.sv"
@@ -17,5 +20,9 @@
 `include "mesi_read_miss_dcache.sv"
 `include "mesi_write_miss_dcache.sv"
 `include "mesi_write_hit_dcache.sv"
+
+`include "random_read_miss_dcache.sv"
+`include "random_write_hit_dcache.sv"
+`include "random_write_miss_dcache.sv"
 
 `include "randomized_dcache.sv"

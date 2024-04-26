@@ -35,10 +35,10 @@ class randomized_dcache_seq extends base_vseq;
     `uvm_object_utils(randomized_dcache_seq)
 
     cpu_transaction_c trans;
-    // rand bit [`ADDR_WID_LV1:0] set_addr[15];
-    // rand bit [`ADDR_WID_LV1:0] set_addr[10];
-    rand bit [`ADDR_WID_LV1:0] set_addr[30];
+    rand bit [`ADDR_WID_LV1:0] rand_addr[30];
     rand bit [`DATA_WID_LV1:0] rand_data;
+    rand bit [`INDEX_WID_LV1:0] rand_set;
+    
     rand int rand_cpu;
     rand int rand_op;
     rand int rand_addr_index;
@@ -50,25 +50,26 @@ class randomized_dcache_seq extends base_vseq;
 
     virtual task body();
 
-        set_addr = {32'h4000_0000, 32'h4001_0000, 32'h4002_0000, 32'h4003_0000, 32'h4004_0000,32'h4005_0000, 32'h4006_0000,32'h4007_0000, 32'h4008_0000, 32'h4009_0000, 
-                    32'h4000_0004, 32'h4001_0004, 32'h4002_0004, 32'h4003_0004, 32'h4004_0004,32'h4005_0004, 32'h4006_0004,32'h4007_0004, 32'h4008_0004, 32'h4009_0004, 
-                    32'h4000_0008, 32'h4001_0008, 32'h4002_0008, 32'h4003_0008, 32'h4004_0008,32'h4005_0008, 32'h4006_0008,32'h4007_0008, 32'h4008_0008, 32'h4009_0008};
-
-        // set_addr = {32'h4000_0000, 32'h4001_0000, 32'h4002_0000, 32'h4003_0000, 32'h4004_0000, 
-        //             32'h4000_0004, 32'h4001_0004, 32'h4002_0004, 32'h4003_0004, 32'h4004_0004};
-
-        // set_addr = {32'h4000_0000, 32'h4001_0000, 32'h4002_0000, 32'h4003_0000, 32'h4004_0000,32'h4005_0000, 32'h4006_0000,32'h4007_0000, 32'h4008_0000, 32'h4009_0000};
+        for(int i = 0; i < 3; i++)begin // addresses in the same set
+            rand_set = $urandom();
+            for(int j = 0; j < 10; j++)begin
+                rand_addr[i*10 + j] = $urandom_range(32'h4000_0000, 32'hffff_ffff);
+                rand_addr[i*10 + j][`INDEX_MSB_LV1:`INDEX_LSB_LV1] = rand_set;
+                `uvm_info("ADDR", $sformatf("ADDR_CHECK: %0h", rand_addr[i*10 + j]), UVM_LOW)
+            end
+        end
 
         repeat(500)begin
             rand_cpu = $urandom_range(0,3);
             rand_op = $urandom_range(0,1);
             rand_addr_index = $urandom_range(0,29);
+            `uvm_info("RAND_ADDR_INDEX", $sformatf("RAND_ADDR_INDEX: %0d", rand_addr_index), UVM_LOW)
             rand_data = $urandom_range(32'h0000_0000, 32'hffff_ffff);
             if(rand_op == 0)begin
-                `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == set_addr[rand_addr_index];})
+                `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == READ_REQ; access_cache_type == DCACHE_ACC; address == rand_addr[rand_addr_index];})
             end
             else begin
-                `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == set_addr[rand_addr_index]; data == rand_data;})
+                `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == WRITE_REQ; access_cache_type == DCACHE_ACC; address == rand_addr[rand_addr_index]; data == rand_data;})
             end
         end
 
@@ -76,3 +77,5 @@ class randomized_dcache_seq extends base_vseq;
     endtask
 
 endclass : randomized_dcache_seq
+
+
