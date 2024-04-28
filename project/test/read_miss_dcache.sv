@@ -35,7 +35,7 @@ class read_miss_dcache_seq extends base_vseq;
     `uvm_object_utils(read_miss_dcache_seq)
 
     cpu_transaction_c trans;
-    bit [`ADDR_WID_LV1:0] set_addr[5];
+    bit [`ADDR_WID_LV1-1:0] set_addr[5];
 
     //constructor
     function new (string name="read_miss_dcache_seq");

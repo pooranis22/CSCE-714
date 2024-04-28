@@ -36,9 +36,9 @@ class randomized_icache_seq extends base_vseq;
 
     cpu_transaction_c trans;
     
-    rand bit [`ADDR_WID_LV1:0] rand_addr[10];
-    rand bit [`DATA_WID_LV1:0] rand_data;
-    rand bit [`INDEX_WID_LV1:0] rand_set;
+    rand bit [`ADDR_WID_LV1-1:0] rand_addr[10];
+    rand bit [`DATA_WID_LV1-1:0] rand_data;
+    rand bit [`INDEX_WID_LV1-1:0] rand_set;
 
     rand int rand_cpu, rand_addr_index;
 
@@ -51,9 +51,8 @@ class randomized_icache_seq extends base_vseq;
 
     repeat(20)begin  
 
-        // Read LRU
         rand_set = $urandom(); 
-        for(int i = 0; i < 5; i++)begin // addresses in the same set
+        for(int i = 0; i < 10; i++)begin // addresses in the same set
             rand_addr[i] = $urandom_range(32'h0000_0000, (32'h4000_0000 - 1'b1));
             rand_addr[i][`INDEX_MSB_LV1:`INDEX_LSB_LV1] = rand_set;
             `uvm_info("ADDR", $sformatf("ADDR_CHECK: %0h", rand_addr[i]), UVM_LOW)
@@ -61,7 +60,7 @@ class randomized_icache_seq extends base_vseq;
 
         repeat(50)begin
             rand_cpu = $urandom_range(0,3);
-            rand_addr_index = $urandom_range(0,4);
+            rand_addr_index = $urandom_range(0,9);
             `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index];})
             rand_addr_index = $urandom_range(0,4);
             rand_data = $urandom_range(32'h0000_0000, 32'hffff_ffff);

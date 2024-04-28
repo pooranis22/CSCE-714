@@ -36,9 +36,9 @@ class random_write_hit_dcache_seq extends base_vseq;
 
     cpu_transaction_c trans;
     
-    rand bit [`ADDR_WID_LV1:0] rand_addr[5];
-    rand bit [`DATA_WID_LV1:0] rand_data;
-    rand bit [`INDEX_WID_LV1:0] rand_set;
+    rand bit [`ADDR_WID_LV1-1:0] rand_addr[5];
+    rand bit [`DATA_WID_LV1-1:0] rand_data;
+    rand bit [`INDEX_WID_LV1-1:0] rand_set;
 
     rand int rand_cpu;
     rand int addr_index;

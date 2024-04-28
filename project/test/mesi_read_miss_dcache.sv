@@ -35,8 +35,8 @@ class mesi_read_miss_dcache_seq extends base_vseq;
     `uvm_object_utils(mesi_read_miss_dcache_seq)
 
     cpu_transaction_c trans;
-    bit [`ADDR_WID_LV1:0] set_addr[5];
-    rand bit [`DATA_WID_LV1:0] rand_data;
+    bit [`ADDR_WID_LV1-1:0] set_addr[5];
+    rand bit [`DATA_WID_LV1-1:0] rand_data;
     int rand_addr;
     //constructor
     function new (string name="mesi_read_miss_dcache_seq");

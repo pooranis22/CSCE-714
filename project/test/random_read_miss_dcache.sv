@@ -36,9 +36,9 @@ class random_read_miss_dcache_seq extends base_vseq;
 
     cpu_transaction_c trans;
     
-    rand bit [`ADDR_WID_LV1:0] rand_addr[5];
-    rand bit [`DATA_WID_LV1:0] rand_data;
-    rand bit [`INDEX_WID_LV1:0] rand_set;
+    rand bit [`ADDR_WID_LV1-1:0] rand_addr[5];
+    rand bit [`DATA_WID_LV1-1:0] rand_data;
+    rand bit [`INDEX_WID_LV1-1:0] rand_set;
 
     rand int rand_cpu;
     rand int addr_index;
@@ -81,7 +81,7 @@ class random_read_miss_dcache_seq extends base_vseq;
             `uvm_info("ADDR", $sformatf("ADDR_CHECK: %0h", rand_addr[i]), UVM_LOW)
         end
 
-        repeat(10)begin
+        repeat(15)begin
             rand_cpu = $urandom_range(0,3);
             for(int j = 0; j < 4; j++)begin // Fill up cache with addresses in the same set
                 `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == READ_REQ; address == rand_addr[addr_index%5];})
