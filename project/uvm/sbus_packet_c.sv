@@ -28,7 +28,7 @@ class sbus_packet_c extends uvm_sequence_item;
     bit                         snoop_wr_req_flag;
     bit                         cp_in_cache;
     bit                         shared;
-    int                         service_time;
+    int unsigned                service_time;
 
     // fields related to dirty block eviction
     bit [ADDR_WID_LV1-1 : 0]    proc_evict_dirty_blk_addr;

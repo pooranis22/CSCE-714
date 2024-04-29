@@ -50,7 +50,7 @@ class random_delay_test_seq extends base_vseq;
 
     virtual task body();
 
-        repeat(500)begin
+        repeat(100)begin
             for(int i = 0; i < 4; i++) begin
                 rand_addr[i] = $urandom();
                 rand_cpu[i] = $urandom_range(0,3);

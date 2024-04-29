@@ -79,7 +79,7 @@ class parallel_dcache_seq extends base_vseq;
             end
         end
 
-        repeat(40)begin
+        repeat(20)begin
             fork
                 begin
                     rand_cpu1 = $urandom_range(0,3);

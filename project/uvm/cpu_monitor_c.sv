@@ -19,15 +19,17 @@ class cpu_monitor_c extends uvm_monitor;
         option.name = "cover_cpu_packets";
         REQUEST: coverpoint packet.request_type;
         //TODO: add coverpoints for Data, Address, etc.
-        DATA: coverpoint packet.dat;
-        ADDR: coverpoint packet.address;
-        ADDR_TYPE: coverpoint packet.addr_type{
-            option.auto_bin_max = 20;
+        REQUEST_ILLEGAL_BIT: coverpoint packet.illegal;
+        REQUEST_ADDRESS_TYPE: coverpoint packet.addr_type;
+        REQUEST_NUM_CYCLES: coverpoint packet.num_cycles;
+        REQUEST_ADDRESS: coverpoint packet.address{
+        option.auto_bin_max = 20;
         }
-        ILLEGAL: coverpoint packet.illegal;
-
-        X_REQUEST__ADDR: cross REQUEST, ADDR;
-        X_REQUEST__ADDR_TYPE: cross REQUEST, ADDR_TYPE;
+        READ_DATA: coverpoint packet.dat{
+        option.auto_bin_max = 30;
+        }
+        CROSS_DATA_REQUEST: cross REQUEST, READ_DATA;
+        CROSS_ADDRESS_REQUEST: cross REQUEST, REQUEST_ADDRESS;
     endgroup
 
     //constructor
@@ -72,12 +74,15 @@ class cpu_monitor_c extends uvm_monitor;
             packet.address = vi_cpu_lv1_if.addr_bus_cpu_lv1;
             if(packet.address < 32'h4000_0000)
             begin
-                packet.addr_type = ICACHE_ACC;
+                packet.addr_type = ICACHE;
             end
             else
             begin
-                packet.addr_type = DCACHE_ACC;
+                packet.addr_type = DCACHE;
             end
+
+            @(posedge vi_cpu_lv1_if.clk)
+                packet.num_cycles++;
             
             @(posedge vi_cpu_lv1_if.data_in_bus_cpu_lv1 or posedge vi_cpu_lv1_if.cpu_wr_done)
             packet.dat = vi_cpu_lv1_if.data_bus_cpu_lv1;
@@ -89,3 +94,4 @@ class cpu_monitor_c extends uvm_monitor;
     endtask : run_phase
 
 endclass : cpu_monitor_c
+

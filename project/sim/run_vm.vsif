@@ -7,7 +7,7 @@ session cpu_regress
 
 group all_test {
 
-      run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache" ;
+      run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_read_miss_icache" ;
       scan_script: "vm_scan.pl ius.flt shell.flt" ;
       count : 1;
       pre_commands: "";
@@ -16,88 +16,166 @@ group all_test {
 
 
 
-      test test1 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_dcache -define READ_MISS_DCACHE" ;
+      test test_1_read_miss_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_dcache -define READ_MISS_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test2 {
+      test test_2_read_hit_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_hit_dcache -define READ_HIT_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test3 {
+      test test_3_write_miss_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=write_miss_dcache -define WRITE_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test4 {
+      test test_4_write_hit_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=write_hit_dcache -define WRITE_HIT_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test5 {
+      test test_5_mesi_read_miss_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=mesi_read_miss_dcache -define MESI_READ_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test6 {
+      test test_6_mesi_write_miss_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=mesi_write_miss_dcache -define MESI_WRITE_MISS_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test7 {
+      test test_7_mesi_write_hit_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=mesi_write_hit_dcache -define MESI_WRITE_HIT_DCACHE" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test8 {
+      test test_8_randomized_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=randomized_dcache -define RND_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
-	   count : 1;
+	   count : 5;
       };
 
-      test test9 {
+      test test_9_random_read_miss_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_read_miss_dcache -define RND_READ_MISS_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
-	   count : 1;
+	   count : 5;
       };
 
-      test test10 {
+      test test_10_random_write_miss_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_write_miss_dcache -define RND_WRITE_MISS_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
-	   count : 1;
+	   count : 5;
       };
 
-      test test11 {
+      test test_11_random_write_hit_dcache {
       	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_write_hit_dcache -define RND_WRITE_HIT_DCACHE -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
-	   count : 1;
+	   count : 5;
       };
 
-      test test12 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_read_icache -define RND_READ_ICACHE -svseed random" ;
+      test test_12_parallel_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=parallel_dcache -define PARALLEL_DCACHE -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_13_read_miss_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define read_miss_icache -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test13 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_write_icache -define RND_WRITE_ICACHE -svseed random" ;
+      test test_14_read_hit_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_hit_icache -define read_hit_icache -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
       };
 
-      test test14 {
-      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=randomized_icache -define RND_ICACHE -svseed random" ;
+      test test_15_write_miss_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=write_miss_icache -define write_miss_icache -svseed random" ;
            scan_script: "vm_scan.pl ius.flt shell.flt" ;
 	   count : 1;
+      };
+
+      test test_16_write_hit_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=write_hit_icache -define write_hit_icache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test_17_lru_read_miss_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_read_miss_icache -define lru_read_miss_icache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_18_lru_read_hit_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_read_hit_icache -define lru_read_hit_icache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_19_lru_read_miss_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_read_miss_dcache -define lru_read_miss_dcache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_20_lru_read_hit_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_read_hit_dcache -define lru_read_hit_dcache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_21_lru_write_miss_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_write_miss_dcache -define lru_write_miss_dcache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_22_lru_write_hit_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=lru_write_hit_dcache -define lru_write_hit_dcache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_23_randomized_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=randomized_icache -define randomized_icache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_24_parallel_icache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=parallel_icache -define parallel_icache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_25_random_delay_test {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_delay_test -define random_delay_test -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_26_random_test {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=random_test -define random_test -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
+      };
+
+      test test_27_cont_rw_same_addr_dcache {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=cont_rw_same_addr_dcache -define cont_rw_same_addr_dcache -svseed random" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 5;
       };
 
 };

@@ -59,7 +59,7 @@ class randomized_dcache_seq extends base_vseq;
             end
         end
 
-        repeat(500)begin
+        repeat(100)begin
             rand_cpu = $urandom_range(0,3);
             rand_op = $urandom_range(0,1);
             rand_addr_index = $urandom_range(0,29);

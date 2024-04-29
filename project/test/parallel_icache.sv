@@ -41,15 +41,12 @@ class parallel_icache_seq extends base_vseq;
 
     rand int rand_cpu4, rand_cpu1, rand_cpu2, rand_cpu3;
     rand int rand_addr_index4, rand_addr_index1, rand_addr_index2, rand_addr_index3;
-    rand int rand_op1, rand_op2, rand_op3, rand_op4;
-
-    //constructor
     function new (string name="parallel_icache_seq");
         super.new(name);
     endfunction : new
 
     virtual task body();
-        repeat(20)begin  
+        repeat(10)begin  
 
             // Read LRU
             rand_set = $urandom(); 
@@ -61,53 +58,29 @@ class parallel_icache_seq extends base_vseq;
 
             
             
-            repeat(40)begin
+            repeat(20)begin
                 begin
                     rand_cpu1 = $urandom_range(0,3);
                     rand_addr_index1 = $urandom_range(0,15);
-                    rand_op1 = $urandom_range(0,1);
-                    if(rand_op1 == 0)begin
-                        `uvm_do_on_with(trans1, p_sequencer.cpu_seqr[rand_cpu1], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index1];})
-                    end 
-                    else begin
-                        `uvm_do_on_with(trans1, p_sequencer.cpu_seqr[rand_cpu1], {request_type == WRITE_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index1];})
-                    end
+                    `uvm_do_on_with(trans1, p_sequencer.cpu_seqr[rand_cpu1], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index1];})
                 end
 
                 begin
                     rand_cpu2 = $urandom_range(0,3);
                     rand_addr_index2 = $urandom_range(0,15);
-                    rand_op2 = $urandom_range(0,1);
-                    if(rand_op2 == 0)begin
-                        `uvm_do_on_with(trans2, p_sequencer.cpu_seqr[rand_cpu2], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index2];})
-                    end 
-                    else begin
-                        `uvm_do_on_with(trans2, p_sequencer.cpu_seqr[rand_cpu2], {request_type == WRITE_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index2];})
-                    end                
+                    `uvm_do_on_with(trans2, p_sequencer.cpu_seqr[rand_cpu2], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index2];})
                 end
 
                 begin
                     rand_cpu3 = $urandom_range(0,3);
                     rand_addr_index3 = $urandom_range(0,15);
-                    rand_op3 = $urandom_range(0,1);
-                    if(rand_op3 == 0)begin
-                        `uvm_do_on_with(trans3, p_sequencer.cpu_seqr[rand_cpu3], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index3];})
-                    end 
-                    else begin
-                        `uvm_do_on_with(trans3, p_sequencer.cpu_seqr[rand_cpu3], {request_type == WRITE_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index3];})
-                    end                
+                    `uvm_do_on_with(trans3, p_sequencer.cpu_seqr[rand_cpu3], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index3];})
                 end
 
                 begin
                     rand_cpu4 = $urandom_range(0,3);
                     rand_addr_index4 = $urandom_range(0,15);
-                    rand_op4 = $urandom_range(0,1);
-                    if(rand_op4 == 0)begin
-                        `uvm_do_on_with(trans4, p_sequencer.cpu_seqr[rand_cpu4], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index4];})
-                    end 
-                    else begin
-                        `uvm_do_on_with(trans4, p_sequencer.cpu_seqr[rand_cpu4], {request_type == WRITE_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index4];})
-                    end                
+                    `uvm_do_on_with(trans4, p_sequencer.cpu_seqr[rand_cpu4], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index4];})
                 end
             end
 

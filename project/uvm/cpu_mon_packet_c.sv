@@ -15,7 +15,7 @@ class cpu_mon_packet_c extends uvm_sequence_item;
     addr_t addr_type;//ICACHe or DCACHE
     logic [DATA_WID_LV1-1 : 0] dat;//Data
     logic [ADDR_WID_LV1-1 : 0] address;//Address
-    int num_cycles;//Number of cycles to service the request
+    int unsigned num_cycles;//Number of cycles to service the request
     bit illegal;//Is the request illegal i.e. write to ICACHE
 
 

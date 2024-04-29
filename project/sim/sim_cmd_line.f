@@ -6,7 +6,7 @@
     -coverage A                   // record "all" coverage
     -covoverwrite                 // overwrite existing coverage db
     -covfile ./cov_conf.ccf     // feed in coverage configuration file
-//    -input ../uvm/waves.tcl
+    -input ../uvm/waves.tcl
 
 //setup UVM home
     -uvmhome $UVMHOME

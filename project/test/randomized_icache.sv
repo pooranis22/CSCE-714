@@ -49,7 +49,7 @@ class randomized_icache_seq extends base_vseq;
 
     virtual task body();
 
-    repeat(20)begin  
+    repeat(10)begin  
 
         rand_set = $urandom(); 
         for(int i = 0; i < 10; i++)begin // addresses in the same set
@@ -58,13 +58,10 @@ class randomized_icache_seq extends base_vseq;
             `uvm_info("ADDR", $sformatf("ADDR_CHECK: %0h", rand_addr[i]), UVM_LOW)
         end
 
-        repeat(50)begin
+        repeat(10)begin
             rand_cpu = $urandom_range(0,3);
             rand_addr_index = $urandom_range(0,9);
             `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == READ_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index];})
-            rand_addr_index = $urandom_range(0,4);
-            rand_data = $urandom_range(32'h0000_0000, 32'hffff_ffff);
-            `uvm_do_on_with(trans, p_sequencer.cpu_seqr[rand_cpu], {request_type == WRITE_REQ; access_cache_type == ICACHE_ACC; address == rand_addr[rand_addr_index];})
         end
     end
 

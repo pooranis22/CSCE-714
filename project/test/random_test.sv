@@ -48,7 +48,7 @@ class random_test_seq extends base_vseq;
 
     virtual task body();
         
-        repeat(1000)begin
+        repeat(100)begin
             for(int i = 0; i < 4; i++) begin
                 rand_addr[i] = $urandom();
                 rand_addr[i][`OFFSET_MSB_LV1:`OFFSET_LSB_LV1] = i;

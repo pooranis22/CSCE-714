@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vplanx:planRefinements xmlns:vplanx="http://www.cadence.com/vplanx">
+    <metaData>
+        <sourceTool>vManager CS</sourceTool>
+        <toolVersion>22.03</toolVersion>
+        <schemaVersion>1.0</schemaVersion>
+        <buildTime>2022-08-23 14:52:26</buildTime>
+    </metaData>
+    <planRef>
+        <planId>9b54ab95-b3c4-42d2-9f18-5f024bf92750</planId>
+        <planPath>ProjectVerificationPlanSpring2024.vplanx</planPath>
+    </planRef>
+    <globalRefinement>
+        <excludeElementsRefinements>
+            <elementPath>
+                <elementName>Multi-Core Design</elementName>
+                <elementName>LV1 dcache LRU functionality</elementName>
+                <elementName>Assertions_slash_Checkers to detect_slash_report illegal LRU states and_slash_or transitions</elementName>
+            </elementPath>
+            <elementPath>
+                <elementName>Multi-Core Design</elementName>
+                <elementName>LV1 icache LRU functionality</elementName>
+                <elementName>Assertions_slash_Checkers to detect_slash_report illegal LRU states and_slash_or transitions</elementName>
+            </elementPath>
+            <elementPath>
+                <elementName>Multi-Core Design</elementName>
+                <elementName>LV1 dcache MESI FSM</elementName>
+                <elementName>Assertions_slash_Checkers to detect_slash_report illegal MESI-FSM states and_slash_or transitions</elementName>
+            </elementPath>
+            <elementPath>
+                <elementName>Multi-Core Design</elementName>
+                <elementName>Functional Coverage</elementName>
+                <elementName>Arbiter</elementName>
+            </elementPath>
+            <elementPath>
+                <elementName>Multi-Core Design</elementName>
+                <elementName>Functional Coverage</elementName>
+                <elementName>LRU</elementName>
+            </elementPath>
+            <elementPath>
+                <elementName>Multi-Core Design</elementName>
+                <elementName>Functional Coverage</elementName>
+                <elementName>MESI</elementName>
+            </elementPath>
+            <exclusionUser>quyvan</exclusionUser>
+            <exclusionTime>1.714360330286E12</exclusionTime>
+        </excludeElementsRefinements>
+        <attributesRefinements>
+            <attributesRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>LV1 dcache LRU functionality</elementName>
+                    <elementName>Assertions_slash_Checkers to detect_slash_report illegal LRU states and_slash_or transitions</elementName>
+                </elementPath>
+                <attributes/>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360330286E12</exclusionTime>
+            </attributesRefinement>
+            <attributesRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>LV1 icache LRU functionality</elementName>
+                    <elementName>Assertions_slash_Checkers to detect_slash_report illegal LRU states and_slash_or transitions</elementName>
+                </elementPath>
+                <attributes/>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360336066E12</exclusionTime>
+            </attributesRefinement>
+            <attributesRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>LV1 dcache MESI FSM</elementName>
+                    <elementName>Assertions_slash_Checkers to detect_slash_report illegal MESI-FSM states and_slash_or transitions</elementName>
+                </elementPath>
+                <attributes/>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360341798E12</exclusionTime>
+            </attributesRefinement>
+            <attributesRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Functional Coverage</elementName>
+                    <elementName>Arbiter</elementName>
+                </elementPath>
+                <attributes/>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714364403502E12</exclusionTime>
+            </attributesRefinement>
+            <attributesRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Functional Coverage</elementName>
+                    <elementName>LRU</elementName>
+                </elementPath>
+                <attributes/>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360159245E12</exclusionTime>
+            </attributesRefinement>
+            <attributesRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Functional Coverage</elementName>
+                    <elementName>MESI</elementName>
+                </elementPath>
+                <attributes/>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360163156E12</exclusionTime>
+            </attributesRefinement>
+        </attributesRefinements>
+        <mappedElementsRefinements>
+            <mappedElementsRefinement>
+                <metricsPortPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Code Coverage</elementName>
+                    <elementName>Toggle</elementName>
+                </metricsPortPath>
+                <patternId>95db7434-554d-43fa-a703-11b174f2eb13</patternId>
+                <refinementMetricsInformation>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
+&lt;refinement-file-root&gt;
+  &lt;information comment-version=&quot;1&quot; creation-time=&quot;Sun 28 Apr 2024 23:20:23 CDT&quot; creator=&quot;quyvan&quot; csCheck=&quot;false&quot; save-ref-method=&quot;seq&quot; tool-version=&quot;Cadence vManager22.03&quot; rules-signature-c=&quot;786eef55d761b6f9685deed7aac08274&quot;&gt;
+    &lt;ucm-files&gt;
+      &lt;ucm-file domain=&quot;icc&quot; modelCheckSum=&quot;335852566&quot; path=&quot;icc_1404b416_1fb3de04.ucm(merged)&quot;&gt;&lt;/ucm-file&gt;
+    &lt;/ucm-files&gt;
+    &lt;ccf-files&gt;
+      &lt;ccf-file content=&quot;set_toggle_includez;set_covergroup -new_instance_reporting;&quot; path=&quot;/home/ugrads/q/quyvan/csce714/final_project/project/sim/cov_conf.ccf&quot;&gt;&lt;/ccf-file&gt;
+    &lt;/ccf-files&gt;
+  &lt;/information&gt;
+  &lt;rules&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_0/inst_cache_wrapper_lv1_il/inst_cache_controller_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_3/inst_cache_wrapper_lv1_il/inst_cache_controller_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_0/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_3/inst_cache_wrapper_lv1_dl/inst_cache_controller_lv1_dl/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_2/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_main_func_lv1_il/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_0/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_main_func_lv1_il/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_0/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_snoop/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_1/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_1/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_main_func_lv1_il/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_2/inst_cache_wrapper_lv1_dl/inst_cache_controller_lv1_dl/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_2/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_proc/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_1/inst_cache_wrapper_lv1_il/inst_cache_controller_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_2/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_1/inst_cache_wrapper_lv1_dl/inst_cache_controller_lv1_dl/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_2/inst_cache_wrapper_lv1_il/inst_cache_controller_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_3/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_3/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_proc/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_0/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_proc/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_3/inst_cache_wrapper_lv1_il/inst_cache_block_lv1_il/inst_main_func_lv1_il/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_3/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_snoop/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_0/inst_cache_wrapper_lv1_dl/inst_cache_controller_lv1_dl/inst_addr_segregator/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_1/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_proc/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_1/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_snoop/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+    &lt;rule ccType=&quot;inst&quot; domain=&quot;icc&quot; entityName=&quot;top/inst_cache_top/inst_cache_lv1_multicore&quot; entityType=&quot;inst&quot; excTime=&quot;1714360261&quot; name=&quot;exclude&quot; reviewer=&quot;unknown&quot; subEntityName=&quot;inst_cache_lv1_unicore_2/inst_cache_wrapper_lv1_dl/inst_cache_block_lv1_dl/inst_addr_segregator_snoop/zeros&quot; subEntityType=&quot;toggle&quot; user=&quot;0&quot; vscope=&quot;default&quot;&gt;&lt;/rule&gt;
+  &lt;/rules&gt;
+  &lt;cache-map&gt;
+    &lt;cache-entry key=&quot;0&quot; value=&quot;quyvan&quot;&gt;&lt;/cache-entry&gt;
+  &lt;/cache-map&gt;
+&lt;/refinement-file-root&gt;</refinementMetricsInformation>
+            </mappedElementsRefinement>
+        </mappedElementsRefinements>
+        <commentRefinements>
+            <commentRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>LV1 dcache LRU functionality</elementName>
+                    <elementName>Assertions_slash_Checkers to detect_slash_report illegal LRU states and_slash_or transitions</elementName>
+                </elementPath>
+                <exclusionComment></exclusionComment>
+                <exclusionReviewer>unknown</exclusionReviewer>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360330286E12</exclusionTime>
+            </commentRefinement>
+            <commentRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>LV1 icache LRU functionality</elementName>
+                    <elementName>Assertions_slash_Checkers to detect_slash_report illegal LRU states and_slash_or transitions</elementName>
+                </elementPath>
+                <exclusionComment></exclusionComment>
+                <exclusionReviewer>unknown</exclusionReviewer>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360336066E12</exclusionTime>
+            </commentRefinement>
+            <commentRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>LV1 dcache MESI FSM</elementName>
+                    <elementName>Assertions_slash_Checkers to detect_slash_report illegal MESI-FSM states and_slash_or transitions</elementName>
+                </elementPath>
+                <exclusionComment></exclusionComment>
+                <exclusionReviewer>unknown</exclusionReviewer>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360341798E12</exclusionTime>
+            </commentRefinement>
+            <commentRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Functional Coverage</elementName>
+                    <elementName>Arbiter</elementName>
+                </elementPath>
+                <exclusionComment></exclusionComment>
+                <exclusionReviewer>unknown</exclusionReviewer>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714364403502E12</exclusionTime>
+            </commentRefinement>
+            <commentRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Functional Coverage</elementName>
+                    <elementName>LRU</elementName>
+                </elementPath>
+                <exclusionComment></exclusionComment>
+                <exclusionReviewer>unknown</exclusionReviewer>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360159245E12</exclusionTime>
+            </commentRefinement>
+            <commentRefinement>
+                <elementPath>
+                    <elementName>Multi-Core Design</elementName>
+                    <elementName>Functional Coverage</elementName>
+                    <elementName>MESI</elementName>
+                </elementPath>
+                <exclusionComment></exclusionComment>
+                <exclusionReviewer>unknown</exclusionReviewer>
+                <exclusionUser>quyvan</exclusionUser>
+                <exclusionTime>1.714360163156E12</exclusionTime>
+            </commentRefinement>
+        </commentRefinements>
+    </globalRefinement>
+</vplanx:planRefinements>

@@ -27,14 +27,17 @@ class system_bus_monitor_c extends uvm_monitor;
             option.auto_bin_max = 20;
         }
         //TODO: Add coverage for other fields of sbus_mon_packet
-        BUS_REQ_SNOOP: coverpoint s_packet.bus_req_snoop;
+        BUS_REQ_SNOOP: coverpoint s_packet.bus_req_snoop{
+            illegal_bins illegal_req_type = {4'b1111};
+        }
         REQ_SERVICED_BY: coverpoint s_packet.req_serviced_by;
         WR_DATA_SNOOP: coverpoint s_packet.wr_data_snoop{
             option.auto_bin_max = 20;
         }
         SNOOP_WR_REQ_FLAG: coverpoint s_packet.snoop_wr_req_flag;
         CP_IN_CACHE: coverpoint s_packet.cp_in_cache;
-        SHARED: coverpoint s_packet.shared;	
+        SHARED: coverpoint s_packet.shared;
+        SERVICE_TIME: coverpoint s_packet.service_time;
         PROC_EVICT_DIRTY_BLK_ADDR: coverpoint s_packet.proc_evict_dirty_blk_addr;
         PROC_EVICT_DIRTY_BLK_DATA: coverpoint s_packet.proc_evict_dirty_blk_data;
         PROC_EVICT_DIRTY_BLK_FLAG: coverpoint s_packet.proc_evict_dirty_blk_flag;
@@ -71,6 +74,7 @@ class system_bus_monitor_c extends uvm_monitor;
     //UVM run phase()
     task run_phase(uvm_phase phase);
         `uvm_info(get_type_name(), "RUN Phase", UVM_LOW)
+        // s_packet.service_time = 0;
         forever begin
         //TODO: Code for the system bus monitor is minimal!
         //Add code to observe other cases
@@ -83,7 +87,9 @@ class system_bus_monitor_c extends uvm_monitor;
 
             // wait for assertion of either bus_rd, bus_rdx or invalidate before monitoring other bus activities
             // lv2_rd for I-cache cases
-            @(posedge(vi_sbus_if.bus_rd | vi_sbus_if.bus_rdx | vi_sbus_if.invalidate | vi_sbus_if.lv2_rd));
+            @(posedge(vi_sbus_if.bus_rd | vi_sbus_if.bus_rdx | vi_sbus_if.invalidate | vi_sbus_if.lv2_rd | vi_sbus_if.lv2_wr));
+
+
             fork
                 begin: cp_in_cache_check
                     // check for cp_in_cache assertion
@@ -95,9 +101,25 @@ class system_bus_monitor_c extends uvm_monitor;
                 end : shared_check
             join_none
 
+            if(vi_sbus_if.lv2_wr)
+            begin
+                s_packet.proc_evict_dirty_blk_addr = vi_sbus_if.addr_bus_lv1_lv2;
+                s_packet.proc_evict_dirty_blk_data = vi_sbus_if.data_bus_lv1_lv2;
+                s_packet.proc_evict_dirty_blk_flag = 1;
+                @(posedge (vi_sbus_if.bus_rd | vi_sbus_if.bus_rdx | vi_sbus_if.invalidate | vi_sbus_if.lv2_rd));
+            end
+
             // bus request type
             if (vi_sbus_if.bus_rd === 1'b1)
                 s_packet.bus_req_type = BUS_RD;
+            else if (vi_sbus_if.bus_rdx === 1'b1)
+                s_packet.bus_req_type = BUS_RDX;
+            else if (vi_sbus_if.invalidate === 1'b1)
+                s_packet.bus_req_type = INVALIDATE;
+            else if (vi_sbus_if.lv2_rd === 1'b1)
+                s_packet.bus_req_type = ICACHE_RD;
+
+
 
             // proc which requested the bus access
             case (1'b1)
@@ -118,7 +140,7 @@ class system_bus_monitor_c extends uvm_monitor;
                     if (s_packet.bus_req_type == BUS_RD)
                     begin
                         @(posedge vi_sbus_if.data_in_bus_lv1_lv2);
-                        `uvm_info(get_type_name(), "Bus read or bus readX successful", UVM_LOW)
+                        `uvm_info(get_type_name(), "Bus read successful", UVM_LOW)
                         s_packet.rd_data = vi_sbus_if.data_bus_lv1_lv2;
                         // check which had grant asserted
                         case (1'b1)
@@ -129,7 +151,64 @@ class system_bus_monitor_c extends uvm_monitor;
                             vi_sbus_if.bus_lv1_lv2_gnt_lv2     : s_packet.req_serviced_by = SERV_L2;
                         endcase
                     end
+                    // L2 serviced read miss
+                    else if (s_packet.bus_req_type == BUS_RDX)
+                    begin
+                        @(posedge vi_sbus_if.data_in_bus_lv1_lv2);
+                        `uvm_info(get_type_name(), "Bus readx successful", UVM_LOW)
+                        s_packet.rd_data = vi_sbus_if.data_bus_lv1_lv2;
+                        // check which had grant asserted
+                        case (1'b1)
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[0]: s_packet.req_serviced_by = SERV_SNOOP0;
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[1]: s_packet.req_serviced_by = SERV_SNOOP1;
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[2]: s_packet.req_serviced_by = SERV_SNOOP2;
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[3]: s_packet.req_serviced_by = SERV_SNOOP3;
+                            vi_sbus_if.bus_lv1_lv2_gnt_lv2     : s_packet.req_serviced_by = SERV_L2;
+                            default;
+                        endcase
+                    end
+                    // lv2_rd for I-cache cases
+                    else if (s_packet.bus_req_type == ICACHE_RD)
+                    begin
+                        @(posedge vi_sbus_if.data_in_bus_lv1_lv2);
+                        `uvm_info(get_type_name(), "ICACHE_RD successful", UVM_LOW)
+                        s_packet.rd_data = vi_sbus_if.data_bus_lv1_lv2;
+                        // check which had grant asserted
+                        case (1'b1)
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[0]: s_packet.req_serviced_by = SERV_SNOOP0;
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[1]: s_packet.req_serviced_by = SERV_SNOOP1;
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[2]: s_packet.req_serviced_by = SERV_SNOOP2;
+                        //     vi_sbus_if.bus_lv1_lv2_gnt_snoop[3]: s_packet.req_serviced_by = SERV_SNOOP3;
+                            vi_sbus_if.bus_lv1_lv2_gnt_lv2     : s_packet.req_serviced_by = SERV_L2;
+                            default;
+                        endcase
+                    end
+                    // Check invalidation
+                    else if (s_packet.bus_req_type == INVALIDATE)
+                    begin
+                        @(posedge vi_sbus_if.all_invalidation_done);
+                        `uvm_info(get_type_name(), "INVALIDATE successful", UVM_LOW)
+                    end
                 end: req_service_check
+
+                begin: bus_req_snoop_check
+                @(posedge(vi_sbus_if.bus_lv1_lv2_req_snoop[0] | vi_sbus_if.bus_lv1_lv2_req_snoop[1] | vi_sbus_if.bus_lv1_lv2_req_snoop[2] | vi_sbus_if.bus_lv1_lv2_req_snoop[3]))
+                case(1'b1)
+                    vi_sbus_if.bus_lv1_lv2_req_snoop[0]: s_packet.bus_req_snoop[0] = 1;
+                    vi_sbus_if.bus_lv1_lv2_req_snoop[1]: s_packet.bus_req_snoop[1] = 1;
+                    vi_sbus_if.bus_lv1_lv2_req_snoop[2]: s_packet.bus_req_snoop[2] = 1;
+                    vi_sbus_if.bus_lv1_lv2_req_snoop[3]: s_packet.bus_req_snoop[3] = 1;
+                endcase
+                end: bus_req_snoop_check
+
+                begin: wr_data_snoop_check
+                @(posedge vi_sbus_if.lv2_wr)
+                if(vi_sbus_if.bus_lv1_lv2_gnt_snoop[0] || vi_sbus_if.bus_lv1_lv2_gnt_snoop[1] || vi_sbus_if.bus_lv1_lv2_gnt_snoop[2] || vi_sbus_if.bus_lv1_lv2_gnt_snoop[3])
+                begin
+                    s_packet.wr_data_snoop = vi_sbus_if.data_bus_lv1_lv2;
+                    s_packet.snoop_wr_req_flag = 1;
+                end
+                end: wr_data_snoop_check
 
             join_none : update_info
 
@@ -144,6 +223,7 @@ class system_bus_monitor_c extends uvm_monitor;
             // write into scoreboard after population of the packet fields
             sbus_out.write(s_packet);
             cover_sbus_packet.sample();
+            // s_packet.service_time++;
         end
     endtask : run_phase
 

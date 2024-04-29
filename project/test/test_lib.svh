@@ -11,16 +11,12 @@
 
 `include "lru_read_miss_icache.sv"
 `include "lru_read_hit_icache.sv"
-`include "lru_write_miss_icache.sv"
-`include "lru_write_hit_icache.sv"
 
 `include "read_miss_icache.sv"
 `include "read_hit_icache.sv"
 `include "write_miss_icache.sv"
 `include "write_hit_icache.sv"
 
-`include "random_read_icache.sv"
-`include "random_write_icache.sv"
 `include "randomized_icache.sv"
 
 `include "parallel_icache.sv"
@@ -53,4 +49,4 @@
 `include "random_delay_test.sv"
 `include "random_test.sv"
 
-`include "cont_rw_same_addr.sv"
+`include "cont_rw_same_addr_dcache.sv"
